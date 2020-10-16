@@ -1,0 +1,11 @@
+{
+  "name": "build",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "m.rynkowski@zhr.pl",
+  "license": "MIT",
+  "dependencies": {
+    "npm-install-to": "^3.0.1",
+    "ramda": "^0.27.1"
+  }
+}
