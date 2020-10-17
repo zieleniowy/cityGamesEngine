@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { npmInstallTo } = require('npm-install-to')
+const { npmInstallTo } = require('npm-install-to');
 const paths = {
     admin: '../admin',
     player: '../player',
@@ -16,6 +16,7 @@ const admin = {
     },
     components: {},
     defaultState: {},
+    i18n: {},
     path: paths.admin,
     menuIcons: new Set(['Home']), 
 }
@@ -26,19 +27,14 @@ const player = {
     },
     components: {},
     defaultState: {},
+    i18n: {},
     path: paths.player,
     menuIcons: new Set(['Person']), 
 }
-const i18n = {
-    global: {
-        login: 'login',
-        add: 'dodaj',
-        save: 'zapisz',
-        tools: 'narzędzia',
-        title: 'tytuł',
-        desc: 'opis'
-    }
-};
+const server = {
+    i18n: {},
+}
+const callbacks = [];
 
 function MaterialIcon(type){ this.type = type; }
 const getIcon = (set, icon)=>{
@@ -63,9 +59,10 @@ const addToPage = (list, name, page)=>{
         list[page].components.push(name);
     }
 }
-const setPluginState = (list, plugin, state)=>{
-    list[plugin]=state;
-}
+const setPluginState = (list, plugin, state)=>list[plugin]=state;
+const i18n = (list, plugin, i18n)=>list[plugin]=i18n;
+const applyToState = (o, fn)=>callbacks.push(()=>o.defaultState = fn(o.defaultState));
+
 const npmInstall = (path, modules)=>npmInstallTo(path, modules)
 const arePluginsIncluded = (plugins=[])=>!plugins.some(plugin=>!pluginList.includes(plugin));
 
@@ -74,8 +71,11 @@ const preparePersonApi = (o, plugin)=>({
         addComponent: addComponent.bind(null, plugin, o.components),
         addToPage: addToPage.bind(null, o.pages),
         setState: setPluginState.bind(null, o.defaultState, plugin),
-        npmInstall: npmInstall.bind(null, o.path)
-        // npmInstall: 
+        applyToState: applyToState.bind(null, o),
+        npmInstall: npmInstall.bind(null, o.path),
+        setDictionary: (o)=>i18n[plugin]=o,
+        i18n: i18n.bind(null, o.i18n, plugin),
+
 });
 
 pluginList.forEach(plugin=>{
@@ -83,11 +83,14 @@ pluginList.forEach(plugin=>{
         admin: preparePersonApi(admin, plugin), 
         player: preparePersonApi(player, plugin),
         server: {
-            npmInstall: npmInstall.bind(null, paths.server)
+            npmInstall: npmInstall.bind(null, paths.server),
+            addComponent: ()=>{},
+            i18n: i18n.bind(null, server.i18n, plugin),
         },
         arePluginsIncluded
     }
     require(`${paths.plugins}/${plugin}/manifest`)(_api);
-    // fs.copyFile(`${paths.plugins}/${plugin}/server.js`, `${paths.server}/plugins/${plugin}.js`, (err)=>{ if(err) throw err; });
 })
+
+callbacks.forEach(cb=>cb());
 
