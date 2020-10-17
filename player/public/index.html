@@ -25,6 +25,26 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <script src="%PUBLIC_URL%/socket.io.js"></script>
+    <script>
+          var socket = io(`http://${window.location.hostname}:4000`);
+          const promises = {};
+          let token = 0;
+          socket.on('$error', (res)=>promises[res.token].rej(res.msg));
+          socket.on('commandResult', (res)=>promises[res.token].res(res.result));
+          window.socket = socket;
+          window.cmd = (command, payload)=>{
+            const t = ++token;
+            return new Promise((res, rej)=>{
+              promises[t]={res, rej};
+              socket.emit('command', { type: command, payload, token: t });
+            })
+          }
+          window.storeCallbacks = [];
+          window.onStoreReady = fn=>window.store?fn(window.store):storeCallbacks.push(fn);
+          window.genid = ()=>`${new Date()*1}${Math.floor(Math.random()*899)+100}`;
+
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

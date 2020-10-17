@@ -94,3 +94,91 @@ pluginList.forEach(plugin=>{
 
 callbacks.forEach(cb=>cb());
 
+
+
+
+
+Object.keys(admin.components).forEach(key=>{
+    const path = `${paths.admin}/src/plugins/${admin.components[key].plugin}`;
+    fs.mkdir(path, { recursive: true }, (err) => {
+        if (err) throw err;
+        fs.existsSync(path) || fs.mkdirSync(path);
+        fs.copyFile(`${paths.plugins}/${admin.components[key].plugin}/${admin.components[key].file}`, `${path}/${admin.components[key].file}`, (err)=>{ if(err) throw err; });
+    
+    });
+})
+Object.keys(player.components).forEach(key=>{
+    const path = `${path.player}/src/plugins/${player.components[key].plugin}`;
+    fs.mkdir(path, { recursive: true }, (err) => {
+        if (err) throw err;
+        fs.existsSync(path) || fs.mkdirSync(path);
+        fs.copyFile(`${paths.plugins}/${player.components[key].plugin}/${player.components[key].file}`, `${paths.player}/plugins/${player.components[key].plugin}/${player.components[key].file}`, (err)=>{ if(err) throw err; });
+    
+    });
+})
+
+
+const importRegex = /\/\/import([a-zżźćńółęąś0-9'"\-@,\{\}$_\/\.;\s]+)\/\/import\/\//gim;
+const setupRegex = /\/\/setup([a-zżźćńółęąś0-9'"\}\{:$_\/\.;=\s\(\)\[\],\?]+)\/\/setup\/\//gim;
+
+const getComponentsImport = o=>Object.keys(o.components).map(key=>`import ${key} from './plugins/${o.components[key].plugin}/${o.components[key].file}';`).join('\n');
+const getIconsImport = o => `import {${Array.from(o.menuIcons).map(name=>`${name} as ${name}Icon`).join(', ')}} from '@material-ui/icons';`
+const getImport = o=>getComponentsImport(o)+"\n"+getIconsImport(o);
+const getSetupComponents = o =>Object.keys(o.components).map(key=>`addComponent('${key}', ${key});`).join('\n');
+const getSetupPages = o =>Object.keys(o.pages).map(href=>`addPage('${href}', "${o.pages[href].label}", "${o.pages[href].menu}", ${o.pages[href].icon});`).join('\n');
+const getComponentPages = o => Object.keys(o.pages).map(href=>o.pages[href].components.map(component=>`addComponentPage('${component}', '${href}')`).join('\n')).join('\n');
+const getPluginState = o => {
+    let state = Object.keys(o.defaultState).map(key=>`setPluginState('${key}', ${JSON.stringify(o.defaultState[key])})`).join('\n');
+    Object.keys(o.components).forEach(key=>state=state.replace(new RegExp(`"${key.replace(/\$/g, '\\\$')}"`, 'g'), key));
+    return state;
+};
+
+const adminImport = getImport(admin);
+const adminSetupComponents = getSetupComponents(admin);
+const adminSetupPages = getSetupPages(admin);
+const adminAddComponentsToPages = getComponentPages(admin);
+const adminSetPluginState = getPluginState(admin);
+
+
+const playerImport = getImport(player);
+const playerSetupComponents = getSetupComponents(player);
+const playerSetupPages = getSetupPages(player);
+const playerAddComponentsToPages = getComponentPages(player);
+const playerSetPluginState = getPluginState(player);
+
+const dictionarySet = `window.i18n = ${JSON.stringify(i18n)};`;
+
+// fs.readFile(`${paths.player}/src/reducer.js`, (err, data)=>{
+//     if(err) return console.error(err);
+//     data = String(data);
+//     data = data.replace(importRegex, `//import
+// ${playerImport}
+// //import//`).replace(setupRegex, `//setup
+// ${playerSetupComponents}
+// ${playerSetupPages}
+// ${playerAddComponentsToPages}
+// ${playerSetPluginState}
+// ${dictionarySet}
+// //setup//`);
+// fs.writeFile(`${paths.player}/src/reducer.js`, data, (err) => {
+//     if (err) throw err;
+//   });
+
+// })
+
+fs.readFile(`${paths.admin}/src/reducer.js`, (err, data)=>{
+    if(err) return console.error(err);
+    data = String(data);
+    data = data.replace(importRegex, `//import
+${adminImport}
+//import//`).replace(setupRegex, `//setup
+${adminSetupComponents}
+${adminSetupPages}
+${adminAddComponentsToPages}
+${adminSetPluginState}
+${dictionarySet}
+//setup//`);
+fs.writeFile(`${paths.admin}/src/reducer.js`, data, (err) => {
+    if (err) throw err;
+  });
+});
