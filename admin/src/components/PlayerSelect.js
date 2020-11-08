@@ -15,8 +15,7 @@ function mapDispatchToProps(dispatch){
 
 
 const PlayerSelect = props =>{
-    // if()
-    const fetchList = ()=>window.cmd('playerList').then(props.updateList)
+    const fetchList = ()=>window.cmd('fetchPlayerList').then(props.updateList)
     if(!props.players) fetchList();
     React.useEffect(()=>{
         window.socket.on('reconnect', fetchList);
@@ -35,7 +34,7 @@ const PlayerSelect = props =>{
                 fullWidth
             >
                 <MenuItem value="">------</MenuItem>
-                {props.players&&props.players.map(player=>(<MenuItem key={player.id} value={player.id}>{player.login}</MenuItem>))}
+                {props.players&&props.players.map(player=>(<MenuItem key={player.id} value={player.id}>{player.name}</MenuItem>))}
             </TextField>
     )
 }

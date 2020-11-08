@@ -18,6 +18,10 @@ const store = createStore(reducer);
 window.storeCallbacks.forEach(fn=>fn(store));
 
 
+const update = account=>store.dispatch({ type: "APPLY", payload: state=>({ account }) });
+window.socket.on('userInfo', update);
+window.socket.on('accountUpdate', update);
+
 window.store = store;
 
 ReactDOM.render(

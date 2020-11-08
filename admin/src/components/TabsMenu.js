@@ -3,6 +3,7 @@ import { Tabs, Tab, makeStyles} from '@material-ui/core';
 import { useLocation, Link } from "react-router-dom";
 import {connect} from "react-redux";
 import { ErrorOutline } from  '@material-ui/icons';
+import {path} from 'ramda';
 const useStyles = makeStyles(theme=>({
     link: {
         color: theme.palette.background.paper,
@@ -31,7 +32,7 @@ const TabMenu = props=>{
           className={props.className}
         >
             {props.pages.map(page=>(
-                <Tab label={page.label} key={page.href} component={Link} className={classes.link} to={page.href} icon={page.icon?<page.icon/>:<ErrorOutline/>} />
+                <Tab label={path(page.label, window.i18n)} key={page.href} component={Link} className={classes.link} to={page.href} icon={page.icon?<page.icon/>:<ErrorOutline/>} />
             ))}
         </Tabs>
   );

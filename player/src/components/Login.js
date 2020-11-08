@@ -22,7 +22,7 @@ const socket = window.socket;
 const Login = props =>{
     const refs = {};
     const handleLogin = e =>{
-        socket.emit('login', { login: refs.login.value, pass: refs.pass.value, isAdmin: true });
+        socket.emit('login', { login: refs.login.value, pass: refs.pass.value, isAdmin: false });
         e.preventDefault();
     }
     const handleSocket = token =>props.login(token)
