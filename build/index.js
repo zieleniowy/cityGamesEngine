@@ -73,7 +73,6 @@ const preparePersonApi = (o, plugin)=>({
         setState: setPluginState.bind(null, o.defaultState, plugin),
         applyToState: applyToState.bind(null, o),
         npmInstall: npmInstall.bind(null, o.path),
-        setDictionary: (o)=>i18n[plugin]=o,
         i18n: i18n.bind(null, o.i18n, plugin),
 
 });
