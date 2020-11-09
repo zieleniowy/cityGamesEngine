@@ -135,8 +135,8 @@ api.cmd.register(
 );
 
 ```
-1.name - nazwa, z którą nasza komenta zostanie powiązana,  
-2.callback - właściwa funkcja do wykonania w ramach komendy - w argumencie przyjmuje obiekt składający się z właściwości **payload** - wszystkie argumenty podane przez wywołującego komendę, **subject** - osoba wywołująca komendę  
-3.canUse - Przyjmuje takie same argumenty jak powyższa funkcja, zostaje wywołana przed nią i blokuje wywołanie komendy, gdy zwróci fałsz. (Brak uprawnień) Domyślnie zawsze fałsz.  
+1. name - nazwa, z którą nasza komenta zostanie powiązana,  
+1. callback - właściwa funkcja do wykonania w ramach komendy - w argumencie przyjmuje obiekt składający się z właściwości **payload** - wszystkie argumenty podane przez wywołującego komendę, **subject** - osoba wywołująca komendę  
+1. canUse - Przyjmuje takie same argumenty jak powyższa funkcja, zostaje wywołana przed nią i blokuje wywołanie komendy, gdy zwróci fałsz. (Brak uprawnień) Domyślnie zawsze fałsz.  
 **uwaga** konto root ma dostęp do wszystkich koment - nie wywołuje nawet funkcji canUse. (zatem domyślnie tylko root ma dostęp do komendy)
 
