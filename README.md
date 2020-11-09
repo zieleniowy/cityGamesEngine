@@ -33,6 +33,67 @@ const component = api.player.addComponent('PlayerInventory.js', 'Inventory');
 api.player.addToPage('/', component);
 
 ```
-Dodaje do aplikacji dla graczy komponent z pliku PlayerInventory.js, a następnie umieszcza go na stronie głównej.
+Dodaje do aplikacji dla graczy komponent z pliku **PlayerInventory.js**, a następnie umieszcza go na stronie głównej.
+
+### Ustawienie domyślnego stanu dla danego pluginu
+
+api.<player/admin/server>.setState((Object) state)
+Ustawia domyślny stan - można przekazać dowolny obiekt, należy jednak pamiętać, że wszystkie etykiety powinny być dodane przez kolejną metodę - i18n;
+
+przykład:
+```
+api.server.setState({
+    playerStartsWith: { amount: 1000, unit: 'pln' },
+    units: { pln: 1, eur:  0.22,  usd: 0.26, gbp: 0.2 }
+})
+```
+Przykładowy stan domyślny dla pluginu związanego z finansami. Po zbudowaniu aplikacji dostępny jest w game.<nazwa_pluginu>.state
+
+### Ustawienia internalizacji
+api.<player/admin/server>.i18n((Object) dictionary)
+
+Przy pomocy tej metody, należy dodać wszystkie teksty, które mogą zostać wyświetlone użytkownikowi przez plugin. Wszystkie etykiety mogą być edytowane przez automatycznie generowany formularz - co pozwala na tłumaczenie gier na wiele języków lub dopasowanie jej do wielu fabuł itd.
+
+Przykład użycia dla pluginu shops:
+```
+//manifest.js
+
+api.player.i18n({
+    open: 'Otwórz nowy sklep',
+})
+api.server.i18n({
+    error: 'Nie posiadasz przedmiotów, możliwych do sprzedania w sklepie',
+})
+
+// komponent dodany do aplikacji gracza
+// sposób pierwszy
+import React from 'react';
+import { useSelector } from 'react-redux';
+
+export default props => {
+    const {i18n} = useSelector(state=>state.i18n.shops)
+    return (
+        <button>{i18n.open}</button>
+    )
+}
+
+//sposób drugi
+import React from 'react';
+
+export default props => {
+    return (
+        <button>{window.i18n.shops.open}</button>
+    )
+}
+
+// serwer
+// api.i18n[plugin][label]
+module.exports = api =>{
+    api.cmd.register('shops_open', ()=>{ throw new Error(api.i18n.shops.error) });
+}
+
+
+
+```
 
 ## server-api
