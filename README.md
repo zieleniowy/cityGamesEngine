@@ -171,6 +171,14 @@ api.cmd.use((Account) subject, (string) name, (Object) payload)
 
 ### register
 Dynamiczny zbiór potoków funkcji - umożliwiają rozszerzanie funkcjonalności komend. 
+Wbudowane dzienniki
+- playerBeforeCreate
+- playerAfterCreate
+- gameStart
+- gameStop
+- accountUpdate
+
+
 
 #### dodanie funkcji do potoku
 
@@ -187,9 +195,9 @@ przykład użycia
 ```
 const createPlayer = R.pipe(
     initialPlayer,
-    api.register.load('playerBeforeAdd),
+    api.register.load('playerBeforeAdd'),
     addPlayerToGameArray,
-    api.register.load('playerAfterAdd)
+    api.register.load('playerAfterAdd')
 )
 ```
 
@@ -200,4 +208,24 @@ const createPlayer = R.pipe(
 ```
 api.onPluginsReady((Object payload)->undefined callback)
 ```
-payload - złączony wynik zwrócony przez wszystkie pluginy { [plugin.name] : plugin.return }
+payload - złączony wynik zwrócony przez wszystkie pluginy  według schematu { [plugin.name] : plugin.return },
+stan łączony przez różne pliki danego pluginu jest głęboko łączony.
+
+### Konta użytkowników
+
+#### aktualizacja konta
+Wszystkie cechy, które ulegną zmianie zostaną automatycznie zsynchronizowane z kontem, którego dotyczą. (hook useSelector związany z danymi cechami
+zostanie automatycznie uruchomiony i wykona rerender)
+
+```
+api.accounts.update((Account) userToUpdate, (Object) newProps)
+// przykład - zwiększenie złota gracza o 1000
+const player = game.players[0];
+api.accounts.update(player, { money: 1000 + player.money||0 })
+```
+
+
+
+**UWAGA** Plugin nie powinien modyfikować cech, które modyfikowane są przez komendy (tak, aby nie pominąć uruchomienia jakiegoś potoku). 
+Najlepiej wszystkie modyfikacje wykonywać jedynie wewnątrz potoków w komendach.  
+przykładowo jeśli mamy plugin money, który dodaje nam komendę **give_money**, która uruchamia potok **money_beforeGive** z dziennika. Powyższy kod jej nie uruchomi.
