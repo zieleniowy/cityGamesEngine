@@ -1,4 +1,10 @@
 # Silnik do tworzenia gier miejskich
+Składa się z dwóch osobnych api:
+1. Build api - służącego do zbudowania aplikacji - dodaje do niej nowe pliki, strony, umiejscawia komponenty
+na dodanych stronach, instaluje nowe moduły z dziennika NPM itd.
+1. Server api - dostępne bezpośrednio już w uruchomionej aplikacji
+
+Gra wynikowa składa się z aplikacji dla gracza, aplikacji dla admina oraz serwera. Wszystkie trzy aplikacje są generowane przez skrypt budujący, przy pomocy build api a ich kod nie powinien być modyfikowany przez użytkownika (twórcę gry). Twórca powinien dodawać kod jedynie do folderu plugins. Nie powinien również modyfikować kodu zewnętrznych pluginów (takich, których nie jest twórcą). API ma umożliwić zmianę/rozszerzanie/usuwanie funkcjonalności bez konieczności zmiany kodu, który ją dodaje. Mimo drobnego spadku wydajności, umożliwia to synchronizację i zapewnia, że dany plugin działa tak samo w każdej grze.
 
 ## build-api
 ### Dodanie strony
@@ -228,4 +234,12 @@ api.accounts.update(player, { money: 1000 + player.money||0 })
 
 **UWAGA** Plugin nie powinien modyfikować cech, które modyfikowane są przez komendy (tak, aby nie pominąć uruchomienia jakiegoś potoku). 
 Najlepiej wszystkie modyfikacje wykonywać jedynie wewnątrz potoków w komendach.  
-przykładowo jeśli mamy plugin money, który dodaje nam komendę **give_money**, która uruchamia potok **money_beforeGive** z dziennika. Powyższy kod jej nie uruchomi.
+przykładowo jeśli mamy plugin money, który dodaje nam komendę **give_money**, która uruchamia potok **money_beforeGive** z dziennika. Powyższy kod nie uruchomi tego potoku.
+
+#### sprawdzenie czy konto jest adminem / graczem
+
+```
+api.accounts.isAdmin((Account) user) ->boolean
+api.accounts.isPlayer((Account) user) ->boolean
+```
+
