@@ -1,5 +1,6 @@
 //import
 import Status$money from './plugins/money/MoneyStatus.js';
+import ExpBar$exp from './plugins/exp/PlayerExpBar.js';
 import FetchItemList$inventory from './plugins/inventory/clientFetchItemList.js';
 import ItemList$inventory from './plugins/inventory/ItemList.js';
 import Inventory$inventory from './plugins/inventory/PlayerInventory.js';
@@ -31,11 +32,13 @@ const addPage = (href, label, menu, icon)=>defaultState.pages.push({ href, label
 const setPluginState = (plugin, state={})=>defaultState[plugin] = state;
 //setup
 addComponent('Status$money', Status$money);
+addComponent('ExpBar$exp', ExpBar$exp);
 addComponent('FetchItemList$inventory', FetchItemList$inventory);
 addComponent('ItemList$inventory', ItemList$inventory);
 addComponent('Inventory$inventory', Inventory$inventory);
 addPage('/', ["global","homepage"], "tab", PersonIcon);
 addPage('appRoot', ["rdzeń aplikacji"], "none", null);
+addComponentPage('ExpBar$exp', '/')
 addComponentPage('Inventory$inventory', '/')
 
 setPluginState('inventory', {"extensions":{"beforePlayerEq":[{"id":"moneyStatus","component":Status$money}]}})

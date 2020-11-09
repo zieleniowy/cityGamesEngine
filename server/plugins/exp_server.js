@@ -64,7 +64,7 @@ module.exports = api=>{
         api.register.load('exp_afterGive'),
         lookForLevelUp
     );
-    api.cmd.register('exp_getNeeded', ({payload})=>getNeeded(payload));
+    api.cmd.register('exp_getNeeded', ({subject, payload})=>getNeeded({ ...payload, player: api.accounts.isAdmin(subject)?payload.player:subject }), R.t);
     api.cmd.register('exp_give', ({payload})=>give(payload));
 
     api.register.add('levelUp', levelUp);
