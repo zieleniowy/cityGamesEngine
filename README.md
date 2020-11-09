@@ -10,8 +10,13 @@ Gra wynikowa składa się z aplikacji dla gracza, aplikacji dla admina oraz serw
 ### Tworzenie nowego pluginu 
 buildApi -> undefined  
 
-w folderze plugins należy stworzyć nowy folder z nazwą naszego pluginu i stworzyć w nim główny plik wejściowy naszego pluginu o nazwie **manifest.js**,
-który eksportuje funkcję budującą nasz plugin. 
+<p>w folderze plugins należy stworzyć nowy folder z nazwą naszego pluginu i stworzyć w nim główny plik wejściowy naszego pluginu o nazwie **manifest.js**,
+który eksportuje funkcję budującą nasz plugin. Funkcja zostanie uruchomiona podczas budowania aplikacji. Jej zadaniem jest dodanie do naszej aplikacji wszystkich komponentów naszego pluginu.</p>
+<p>
+dodane komponenty (na serwerze) mają dostęp do server-api podczas działania aplikacji.
+</p>
+
+
 
 
 ## build-api
