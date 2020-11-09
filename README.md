@@ -102,4 +102,17 @@ module.exports = api =>{
 
 Korzystanie z etykiet na serwerze
 
+### Postprocessing domyślnego stanu pluginu
+Służy, by jeden plugin mógł modyfikować stan innego pluginu (lub globalny!) już w trakcie budowy aplikacji. Np.: w celu rozszerzenia go.
+api.<player/admin/server>.applyToState((function) modifier)
+
+Funkcja modyfikująca przyjmuje obecny - kompletny stan aplikacji. Wynik funkcji jest następnie łączony ze stanem, który został jej przekazany (łączenie głębokie).
+
+### Zainstalowanie dodatkowego modułu z rejestru npm
+
+api.<player/admin/server>.npmInstall((string) module_name)
+
+
+
+
 ## server-api
