@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import DrawerMenu from './DrawerMenu';
 import Tabs from './TabsMenu';
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -23,6 +24,7 @@ export default function Component(props) {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar variant="dense">
             <Tabs className={classes.tabs} />
+            <DrawerMenu/>
         </Toolbar>
       </AppBar>
   );

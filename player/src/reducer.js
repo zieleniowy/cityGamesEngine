@@ -4,7 +4,7 @@ import ExpBar$exp from './plugins/exp/PlayerExpBar.js';
 import FetchItemList$inventory from './plugins/inventory/clientFetchItemList.js';
 import ItemList$inventory from './plugins/inventory/ItemList.js';
 import Inventory$inventory from './plugins/inventory/PlayerInventory.js';
-import {Person as PersonIcon} from '@material-ui/icons';
+import {Person as PersonIcon, Today as TodayIcon} from '@material-ui/icons';
 //import//
 
 
@@ -38,8 +38,10 @@ addComponent('ItemList$inventory', ItemList$inventory);
 addComponent('Inventory$inventory', Inventory$inventory);
 addPage('/', ["global","homepage"], "tab", PersonIcon);
 addPage('appRoot', ["rdzeń aplikacji"], "none", null);
+addPage('/inventory', ["inventory","eq"], "drawer", TodayIcon);
 addComponentPage('ExpBar$exp', '/')
 addComponentPage('Inventory$inventory', '/')
+
 
 setPluginState('inventory', {"extensions":{"beforePlayerEq":[{"id":"moneyStatus","component":Status$money}]}})
 defaultState.i18n = {"global":{"homepage":"Profil"},"inventory":{"eq":"Ekwipunek","unknown":"Przedmiot Nierozpoznany"}};
