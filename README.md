@@ -92,8 +92,7 @@ module.exports = api =>{
     api.cmd.register('shops_open', ()=>{ throw new Error(api.i18n.shops.error) });
 }
 
-
-
 ```
+**Uwaga!** Jeśli korzystamy ze sposobu pierwszego - komponent automatycznie wykona ponowny render podczas zmiany słownika, natomiast podczas korzystania ze sposobu drugiego, etykieta zmieni się dopiero podczas kolejnego renderowania z innego powodu.
 
 ## server-api
