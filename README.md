@@ -4,7 +4,15 @@ Składa się z dwóch osobnych api:
 na dodanych stronach, instaluje nowe moduły z dziennika NPM itd.
 1. Server api - dostępne bezpośrednio już w uruchomionej aplikacji
 
-Gra wynikowa składa się z aplikacji dla gracza, aplikacji dla admina oraz serwera. Wszystkie trzy aplikacje są generowane przez skrypt budujący, przy pomocy build api a ich kod nie powinien być modyfikowany przez użytkownika (twórcę gry). Twórca powinien dodawać kod jedynie do folderu plugins. Nie powinien również modyfikować kodu zewnętrznych pluginów (takich, których nie jest twórcą). API ma umożliwić zmianę/rozszerzanie/usuwanie funkcjonalności bez konieczności zmiany kodu, który ją dodaje. Mimo drobnego spadku wydajności, umożliwia to synchronizację i zapewnia, że dany plugin działa tak samo w każdej grze.
+Gra wynikowa składa się z aplikacji dla gracza, aplikacji dla admina oraz serwera. Wszystkie trzy aplikacje są generowane przez skrypt budujący, przy pomocy build api a ich kod nie powinien być modyfikowany przez użytkownika (twórcę gry). Twórca powinien dodawać kod jedynie do folderu plugins. Nie powinien również modyfikować kodu zewnętrznych pluginów (takich, których nie jest twórcą). API ma umożliwić zmianę/rozszerzanie/usuwanie funkcjonalności bez konieczności zmiany kodu, który ją dodaje. Mimo drobnego spadku wydajności, umożliwia to synchronizację i zapewnia, że dany plugin działa tak samo w każdej grze.  
+
+## jak zacząć
+### Tworzenie nowego pluginu 
+buildApi -> undefined  
+
+w folderze plugins należy stworzyć nowy folder z nazwą naszego pluginu i stworzyć w nim główny plik wejściowy naszego pluginu o nazwie **manifest.js**,
+który eksportuje funkcję budującą nasz plugin. 
+
 
 ## build-api
 ### Dodanie strony
