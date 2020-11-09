@@ -5,7 +5,12 @@
 
 
 ```
-addPage(href, label, menu, icon)
+api.<player/admin>.addPage(href, label, menu, icon)
+
+example: 
+
+api.player.addPage('/calendar', 'calendar.pageLabel', 'tab', api.materialIcon('Event'))
+
 ```
 
 
