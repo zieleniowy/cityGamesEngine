@@ -3,8 +3,6 @@
 ## build-api
 ### adding page
 
-
-```
 api.<player/admin>.addPage((string)href, (string)label, (string)menu, (component)icon)
 
 href - url tworzonej strony 
@@ -14,6 +12,9 @@ icon - dowolny komponent
 
 
 example: 
+
+
+```
 
 api.player.addPage('/calendar', 'calendar.pageLabel', 'tab', api.materialIcon('Event'))
 
