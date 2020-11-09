@@ -11,5 +11,4 @@ module.exports = api => {
         eq: "Ekwipunek",
         unknown: 'Przedmiot Nierozpoznany'
     });
-    api.player.addPage('/inventory', 'inventory.eq', 'drawer', api.materialIcon('Today'));
 }
