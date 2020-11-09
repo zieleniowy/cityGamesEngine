@@ -112,7 +112,16 @@ Funkcja modyfikująca przyjmuje obecny - kompletny stan aplikacji. Wynik funkcji
 
 api.<player/admin/server>.npmInstall((string) module_name)
 
+### sprawdzenie, czy dane pluginy są zainstalowane
 
+(array<string>)->boolean  
+przykład użycia:
+```
+if(api.arePluginsIncluded(['money', 'inventory']))
+{
+    api.player.addComponent('MoneyInInventory.js', 'MoneyInInventory');
+}
+```
 
 
 ## server-api
@@ -168,7 +177,21 @@ Dynamiczny zbiór potoków funkcji - umożliwiają rozszerzanie funkcjonalności
 ```
 api.register.add((string) name, (Object)->Object callback)
 
-przykład - dodaje graczowi pieniądze podczas tworzenia nowego gracza (plugin money)
+// przykład - dodaje graczowi pieniądze (podczas tworzenia nowego gracza) - plugin money
 
 api.register.add('playerBeforeAdd', player=>({ money: api.game.state.money.startsWith, ...player }));
 ```
+
+#### wczytanie potoku w dowolnym potoku
+przykład użycia
+```
+const createPlayer = R.pipe(
+    initialPlayer,
+    api.register.load('playerBeforeAdd),
+    addPlayerToGameArray,
+    api.register.load('playerAfterAdd)
+)
+```
+
+### sprawdzenie, czy dane pluginy są zainstalowane 
+(tak samo jak w build api)
