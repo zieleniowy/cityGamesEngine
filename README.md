@@ -116,3 +116,27 @@ api.<player/admin/server>.npmInstall((string) module_name)
 
 
 ## server-api
+
+
+### cmd
+Wszystkie czynności wykonywane przez gracza powinny zostać zarejestrowane przez dziennik. Dzięki temu - cała funkcjonalność aplikacji znajduje się w jednym miejscu.
+Zwiększona jest czytelność dzięki jednolitemu interfejsowi.  
+
+#### Dodanie nowej komendy
+
+```
+api.cmd.register((string) name, ({ payload, subject })->any callback,  [?({payload, subject})->boolean canUse ] )
+
+przykład:
+api.cmd.register(
+    'give_item', 
+    ({ payload, subject })=>giveItem(payload),
+    api.account.isAdmin
+);
+
+```
+name - nazwa, z którą nasza komenta zostanie powiązana,  
+callback - właściwa funkcja do wykonania w ramach komendy - w argumencie przyjmuje obiekt składający się z właściwości **payload** - wszystkie argumenty podane przez wywołującego komendę, **subject** - osoba wywołująca komendę  
+canUse - Przyjmuje takie same argumenty jak powyższa funkcja, zostaje wywołana przed nią i blokuje wywołanie komendy, gdy zwróci fałsz. (Brak uprawnień) Domyślnie zawsze fałsz.  
+**uwaga** konto root ma dostęp do wszystkich koment - nie wywołuje nawet funkcji canUse. (zatem domyślnie tylko root ma dostęp do komendy)
+
