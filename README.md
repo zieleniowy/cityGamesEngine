@@ -3,7 +3,7 @@
 ## build-api
 ### Dodanie strony
 
-api.<player/admin>.addPage((string)href, (string)label, (string)menu, (component)icon)
+api.<player/admin>.addPage((string)href, (string)label, (string)menu, (component)icon) -> undefined
 
 1. href - url tworzonej strony  
 1. label - ścieżka dostępu do tekstu linku -  
@@ -20,12 +20,12 @@ api.player.addPage('/calendar', 'calendar.pageLabel', 'tab', api.materialIcon('E
 
 ### dodanie komponentu do aplikacji
 
-api.<player/admin>.addComponent(string path, string name)
+api.<player/admin>.addComponent(string path, string name) -> component
 api.server.addComponent(string path)
 
 ### dodanie komponentu do strony
 
-api.<player/admin>.addToPage((component) component, (string) page)
+api.<player/admin>.addToPage((component) component, (string) page) -> undefined
 
 przykład: 
 ```
@@ -140,3 +140,21 @@ api.cmd.register(
 1. canUse - Przyjmuje takie same argumenty jak powyższa funkcja, zostaje wywołana przed nią i blokuje wywołanie komendy, gdy zwróci fałsz. (Brak uprawnień) Domyślnie zawsze fałsz.  
 **uwaga** konto root ma dostęp do wszystkich koment - nie wywołuje nawet funkcji canUse. (zatem domyślnie tylko root ma dostęp do komendy)
 
+#### Używanie komendy
+Z poziomu aplikacji gracza/admina
+
+```
+window.cmd((string) name, (Object) payload) -> Promise
+
+przykład: 
+window.cmd('give_item', { player: '1', item: '1', quantity: 3 })
+    .then(console.log)
+    .catch(alert);
+
+```
+
+Lub z poziomu servera
+
+```
+api.cmd.use((Account) subject, (string) name, (Object) payload)
+```
