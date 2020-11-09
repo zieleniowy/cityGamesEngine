@@ -182,7 +182,7 @@ api.register.add((string) name, (Object)->Object callback)
 api.register.add('playerBeforeAdd', player=>({ money: api.game.state.money.startsWith, ...player }));
 ```
 
-#### wczytanie potoku w dowolnym potoku
+#### wczytanie funkcji z dziennika w dowolnym potoku
 przykład użycia
 ```
 const createPlayer = R.pipe(
@@ -195,3 +195,9 @@ const createPlayer = R.pipe(
 
 ### sprawdzenie, czy dane pluginy są zainstalowane 
 (tak samo jak w build api)
+
+### Wykonanie dodatkowych czynności, gdy pluginy są wczytane
+```
+api.onPluginsReady((Object payload)->undefined callback)
+```
+payload - złączony wynik zwrócony przez wszystkie pluginy { [plugin.name] : plugin.return }
