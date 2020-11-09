@@ -64,7 +64,9 @@ api.player.i18n({
 api.server.i18n({
     error: 'Nie posiadasz przedmiotów, możliwych do sprzedania w sklepie',
 })
-
+```
+Rejestracja etykiet wraz z domyślnymi wartościami.
+```
 // komponent dodany do aplikacji gracza
 // sposób pierwszy
 import React from 'react';
@@ -85,7 +87,11 @@ export default props => {
         <button>{window.i18n.shops.open}</button>
     )
 }
+```
+Korzystanie z etykiet w aplikacji gracza (lub admina)
+**Uwaga!** Jeśli korzystamy ze sposobu pierwszego - komponent automatycznie wykona ponowny render podczas zmiany słownika, natomiast podczas korzystania ze sposobu drugiego, etykieta zmieni się dopiero podczas kolejnego renderowania z innego powodu.
 
+```
 // serwer
 // api.i18n[plugin][label]
 module.exports = api =>{
@@ -93,6 +99,7 @@ module.exports = api =>{
 }
 
 ```
-**Uwaga!** Jeśli korzystamy ze sposobu pierwszego - komponent automatycznie wykona ponowny render podczas zmiany słownika, natomiast podczas korzystania ze sposobu drugiego, etykieta zmieni się dopiero podczas kolejnego renderowania z innego powodu.
+
+Korzystanie z etykiet na serwerze
 
 ## server-api
