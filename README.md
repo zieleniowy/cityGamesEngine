@@ -158,3 +158,17 @@ Lub z poziomu servera
 ```
 api.cmd.use((Account) subject, (string) name, (Object) payload)
 ```
+
+
+### register
+Dynamiczny zbiór potoków funkcji - umożliwiają rozszerzanie funkcjonalności komend. 
+
+#### dodanie funkcji do potoku
+
+```
+api.register.add((string) name, (Object)->Object callback)
+
+przykład - dodaje graczowi pieniądze podczas tworzenia nowego gracza (plugin money)
+
+api.register.add('playerBeforeAdd', player=>({ money: api.game.state.money.startsWith, ...player }));
+```
