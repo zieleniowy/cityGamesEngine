@@ -76,6 +76,10 @@ const applyToState = (o, fn)=>callbacks.push(()=>o.defaultState = R.mergeDeepRig
 
 const npmInstall = (path, modules)=>npmInstallTo(path, modules)
 const arePluginsIncluded = (plugins=[])=>!plugins.some(plugin=>!pluginList.includes(plugin));
+const addComponentToArray = (o, path, component)=>applyToState(o, 
+    state=>R.assocPath(path.split('.'), [...(R.path(path.split('.'), state)||[]), { id: `__${component}`, component: component }], state)
+);
+
 
 const preparePersonApi = (o, plugin)=>({
         addPage: addPage.bind(null, o),
@@ -85,6 +89,7 @@ const preparePersonApi = (o, plugin)=>({
         applyToState: applyToState.bind(null, o),
         npmInstall: npmInstall.bind(null, o.path),
         i18n: i18n.bind(null, o.i18n, plugin),
+        addExtension:  addComponentToArray.bind(null, o),
 
 });
 

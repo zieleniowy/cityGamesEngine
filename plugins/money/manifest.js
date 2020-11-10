@@ -9,13 +9,7 @@ module.exports = api =>{
     const moneyStatus = api.player.addComponent('MoneyStatus.js', 'Status');
 
     if(api.arePluginsIncluded(['inventory'])){
-        api.player.applyToState(state=>({
-            inventory: {
-                extensions: {
-                    beforePlayerEq: [...(state.inventory?.extensions?.beforePlayerEq||[]), { id: 'moneyStatus', component: moneyStatus }]
-                }
-            }
-        }))
+        api.player.addExtension('inventory.extensions.beforePlayerEq', moneyStatus);
     }
     else {
         api.player.addToPage(moneyStatus, '/');
