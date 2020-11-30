@@ -6,8 +6,12 @@ module.exports = {
     env: {
         jwtSalt: 'dasdasda1kf',
         maxInt: 9007199254740992,
+        savesDir: `${global.rootDir}/data/saves`
     },
     state: {
+        global: {
+            autosaveInterval: 900000
+        },
         money: {
             startsWith: 1000,
         },
@@ -35,9 +39,13 @@ module.exports = {
         },
         inventory: {
             $itemNotExists: "Dany przedmiot nie istnieje",
+            $dontHaveItem: "Nie posiadasz danego przedmiotu",
         },
         quests: {
             $questNotExists: "Dane zadanie nie istnieje",
+        },
+        lootboxes: {
+            $itemNotOpenable: "Tego przedmiotu nie da się otworzyć",
         }
     },
 }

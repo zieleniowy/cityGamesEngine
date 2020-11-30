@@ -20,6 +20,7 @@ module.exports = api => {
     });
     api.admin.setState({
         createExtensions: [],
+        sanitizeFlow: []
     });
     api.server.setState({
         list: {},

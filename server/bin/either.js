@@ -14,6 +14,9 @@ class Either {
     static fromNullable(val){
         return val !== null && val !== undefined ? Either.right(val) : Either.left(val);
     }
+    static fromFalsify(val){
+        return val?Either.right(val):Either.left(val);
+    }
     static of(a){
         return Either.right(a);
     }

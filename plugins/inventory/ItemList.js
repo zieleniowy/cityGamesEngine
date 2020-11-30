@@ -58,7 +58,7 @@ export default props => {
                     return (
                         <ListItem key={row.item.id}>
                             <ListItemAvatar><Avatar src={item.src}>{item.name?.slice(0, 2)}</Avatar></ListItemAvatar>
-                            <ListItemText primary={item.name||i18n.inventory.unknown} />
+                            <ListItemText primary={`${row.quantity}x ${item.name||i18n.inventory.unknown}`} />
                             {Boolean(props.actions?.length)&&<MoreButton actions={actions} i18n={i18n} item={item} />}
                         </ListItem>
                         )

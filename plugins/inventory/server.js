@@ -36,6 +36,8 @@ const giveItem = R.pipe(
     }))
 )
 
+// items: [{ item : item||string, quantity: number }] 
+
 const hasItems = R.pipe(
     (o)=>({ ...o, source: o.items.map(el=>getItemFromState(el.item).getOrElseThrow(api.game.i18n.inventory.$itemNotExists)) }),
     (o)=>({ ...o, shortened: o.source.map(el=>shortenItem({ source: el }).target) }),
@@ -48,4 +50,11 @@ const hasItems = R.pipe(
     api.cmd.register('eq_giveItem', ({payload})=>giveItem(payload), api.accounts.isAdmin);
     api.cmd.register('eq_hasItems', ({payload})=>hasItems(payload), api.accounts.isAdmin);
     api.cmd.register('eq_itemList', ()=>api.game.state.inventory.items, R.t);
+
+    return {
+        getItemFromState,
+        hasItems,
+        createItem,
+        giveItem
+    }
 }

@@ -4,10 +4,11 @@ import Panel from '../../components/BorderedPanel';
 import Extensions from '../../components/Extensions';
 import QuestStatus from './StatusSelect';
 import {connect} from 'react-redux';
-
+import {pipe} from 'ramda';
 function mapStateToProps(state){
     return {
-        extensions: state.quests.createExtensions
+        extensions: state.quests.createExtensions,
+        // sanitize: state.quests.sanitizeFlow
 
     }
 }
@@ -19,6 +20,7 @@ export default connect(mapStateToProps, null)(props=>{
     const handleChange = (prop, val) => e => setQuest({...quest, [prop]: val?e:e.target.value });
     const handleCheckboxChange = k=>e=>setQuest({...quest, show: {...quest.show, [k]: e.target.checked  } });
     const handleAdd = e=>{
+        // window.cmd('quests_create', props.sanitize.length?pipe(...props.sanitize)(quest):quest)
         window.cmd('quests_create', quest)
             .then(()=>window.cmd('quests_list'))
             // .then(list=>window.store.dispatch({ type: 'SET_PLUGIN_PROP', payload: { prop: 'list', value: list, plugin: 'quests' } }))
@@ -27,7 +29,7 @@ export default connect(mapStateToProps, null)(props=>{
     }
     // const handleAdd = e=> console.log(quest);
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth="md">
             <Panel color="primary" title={window.i18n.quests.create}>
                 <Box p={2}>
                     <TextField value={quest.title} fullWidth onChange={handleChange('title')} label={window.i18n.quests.questTitle} />
@@ -45,7 +47,10 @@ export default connect(mapStateToProps, null)(props=>{
                             label={window.i18n.quests[k]}
                         />
                     ))}
-                    <Extensions extensions={props.extensions} data={{ quest, setQuest }} />
+                </Box>
+                <Box pb={3}>
+                        <Extensions extensions={props.extensions} data={{ quest, setQuest }} />
+
                 </Box>
                 <Button onClick={handleAdd} variant="contained" color="primary" fullWidth>{window.i18n.quests.addQuest}</Button>
 

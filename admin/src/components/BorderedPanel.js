@@ -40,7 +40,7 @@ export default props =>{
         [classes.colorSecondary]: props.color==='secondary' 
     })
     return (
-        <div className={clsx(classes.root, borderClass)}>
+        <div className={clsx(classes.root, borderClass, props.className)}>
             {props.title&&<Typography className={clsx(classes.typo, borderClass)} variant={props.variant||"body1"}>{props.title}</Typography>}
             {props.children}
         </div>

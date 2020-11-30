@@ -27,13 +27,13 @@ const PlayerSelect = props =>{
     return (
             <TextField
                 label={props.label}
-                value={props.player||""}
+                value={props.player||"<none>"}
                 onChange={handleChange}
                 variant={props.variant}
                 select
                 fullWidth
             >
-                <MenuItem value="">------</MenuItem>
+                <MenuItem value="<none>">------</MenuItem>
                 {props.players&&props.players.map(player=>(<MenuItem key={player.id} value={player.id}>{player.name}</MenuItem>))}
             </TextField>
     )

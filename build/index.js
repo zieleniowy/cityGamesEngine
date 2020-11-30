@@ -8,7 +8,7 @@ const paths = {
     server: '../server'
 }
 
-const pluginList = [ 'money', 'exp', 'quests', 'inventory', 'prizes', 'random' ];
+const pluginList = [ 'money', 'exp', 'quests', 'inventory', 'prizes', 'random', 'lootboxes' ];
 const admin = {
     pages: { 
         '/': { label: ['global', 'homepage'], icon: `HomeIcon`, menu: 'tab', components: [] },
@@ -71,13 +71,16 @@ const addToPage = (list, name, page)=>{
     }
 }
 const setPluginState = (list, plugin, state)=>list[plugin]=state;
-const i18n = (list, plugin, i18n)=>list[plugin]=i18n;
+const i18n = (list, plugin, i18n)=>list[plugin]=R.mergeDeepRight(list[plugin], i18n);
 const applyToState = (o, fn)=>callbacks.push(()=>o.defaultState = R.mergeDeepRight(o.defaultState, fn(o.defaultState)) );
 
 const npmInstall = (path, modules)=>npmInstallTo(path, modules)
 const arePluginsIncluded = (plugins=[])=>!plugins.some(plugin=>!pluginList.includes(plugin));
 const addComponentToArray = (o, path, component)=>applyToState(o, 
-    state=>R.assocPath(path.split('.'), [...(R.path(path.split('.'), state)||[]), { id: `__${component}`, component: component }], state)
+    state=>R.assocPath(path.split('.'), [
+        ...(R.path(path.split('.'), state)||[]), 
+        typeof component==='object'?component:{ id: `__${component}`, component: component }
+    ], state)
 );
 
 
@@ -198,3 +201,5 @@ fs.readdir(`${paths.server}/plugins`, (err, files) => {
   fs.writeFile(`${paths.server}/data/pluginList.json`, JSON.stringify(pluginList), err=>{
       if(err) throw err;
   })
+
+//   console.log(player, admin, server);
