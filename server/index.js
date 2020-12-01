@@ -8,8 +8,9 @@ const socket = require('./bin/socket');
 const register = require('./bin/register');
 const plugins = require('./bin/plugins');
 const save = require('./bin/save');
-require('./bin/timer');
+const timer = require('./bin/timer');
 
+cmd.register('consoleLog', (...args)=>console.log(args), R.T);
 
 // accounts.createPlayer({ 
 //     id: '1',
@@ -77,9 +78,12 @@ setTimeout(()=>{
     // cmd.use(game.players[0], 'lootbox_open', { item: '3' });
     // cmd.use(game.players[0], 'lootbox_open', { item: '3' });
     // cmd.use({ type: 'root' }, 'gameSave');
-    cmd.use({ type: 'root' }, 'gameLoad', {  save: '1606764879037' });
-    console.log('save wczytany?');
-    console.log(game);
+    // cmd.use({ type: 'root' }, 'loadGame', {  save: '1606764879037' });
+    cmd.rootUse('loadGame', { save: '1606822692760' });
+    // console.log('save wczytany?');
+    // timer.wait('consoleLog', { foo: 'bar' }, 5, true);
+    register.load('gameStart')();
+    // cmd.rootUse('saveGame');
 
     }
     catch(e){}

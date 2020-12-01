@@ -10,7 +10,12 @@ const commands = {
 };
 
 const canUse = (subject, name, payload)=>subject?.type==='root'||Boolean(commands[name]?.predicate(subject, name, payload));
-
+const use = (subject, name, payload)=>{
+    if(canUse(subject, name, payload)){
+        return commands[name].fn({ subject, payload })
+    }
+    throw new Error(dictionary.global.$noPrivileges);
+};
 
 // const help = {};
 //gettery, zeby obsluzyc zmiane slownika w locie... -> R.path(sciezka)(obiekt);
@@ -20,12 +25,8 @@ module.exports = {
         commands[name]=commands[name]||{ fn, predicate };
     },
     canUse,
-    use: (subject, name, payload)=>{
-        if(canUse(subject, name, payload)){
-            return commands[name].fn({ subject, payload })
-        }
-        throw new Error(dictionary.global.$noPrivileges);
-    },
-    list: ()=>Object.keys(commands)
+    use,
+    list: ()=>Object.keys(commands),
+    rootUse: use.bind(null, { type: 'root' })
     // setHelp(name, o){},
 }

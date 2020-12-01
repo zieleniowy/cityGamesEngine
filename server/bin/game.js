@@ -1,16 +1,17 @@
-const Counter = require('./counter');
 module.exports = {
     players: [],
     admins: [],
-    timer: new Counter(),
+    timer: { val: 0, commands: [] },
     env: {
         jwtSalt: 'dasdasda1kf',
         maxInt: 9007199254740992,
-        savesDir: `${global.rootDir}/data/saves`
+        savesDir: `${global.rootDir}/data/saves`,
+        autosaveInterval: 900000,
+
     },
     state: {
         global: {
-            autosaveInterval: 900000
+            gameStarted: false
         },
         money: {
             startsWith: 1000,

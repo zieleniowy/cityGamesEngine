@@ -23,8 +23,8 @@ const load = R.pipe(
 
 register.add('saveGameError', R.tap(console.log));
 
-cmd.register('gameSave', save, R.F);
-cmd.register('gameLoad', ({subject, payload})=>load(payload), R.F);
+cmd.register('saveGame', save, R.F);
+cmd.register('loadGame', ({subject, payload})=>load(payload), R.F);
 
 module.exports = {
 
